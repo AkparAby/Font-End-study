@@ -123,7 +123,7 @@ index cbe280a..dd48a88 100644
 > 在执行第二步`git commit`之前，我们再运行`git status`看看当前仓库的状态：
 
 ```powershell
-$ git status 
+$ git status
 
 On branch master
 Changes to be committed:
@@ -152,7 +152,7 @@ nothing to commit, working tree clean
 
 > 2.在 GitHub 上的这个新建的仓库还是空的，GitHub 告诉我们，可以从这个仓库克隆出新的仓库，也可以把一个已有的本地仓库与之关联，然后，把本地仓库的内容推送到 Gi0tHub 仓库。
 
-> 3.根据 GitHub 的提示，在本地的 learngit 仓库下运行命令
+> 3.根据 GitHub 的提示，在本地的 仓库下运行命令
 
 ```powershell
 $ git remote add origin git@github.com:AkparAby/Learn-WEB.git
@@ -185,3 +185,5 @@ $ git push origin
 ```powershell
 $ git clone git@github.com:AkparAby/Learn-WEB.git
 ```
+
+- 要克隆一个仓库，首先必须知道仓库的地址，然后使用`git clone`命令克隆
