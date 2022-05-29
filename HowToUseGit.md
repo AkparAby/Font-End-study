@@ -1,7 +1,7 @@
 # 如何使用 Git
 
 浅浅的记录一下 </br>
-如果要用 Mac 或者 Linux 安装教程自己搜索叭(推荐 学习 git 教程:https://www.liaoxuefeng.com/wiki/896043488029600)
+如果要用 Mac 或者 Linux 安装教程自己搜索叭(我是将廖老师的教程拿来小小的总结 和 跳出部分内容放在这里 详细内容链接里看原文吧 学习 git 教程:https://www.liaoxuefeng.com/wiki/896043488029600)
 
 ## 在 Windows 上安装 Git
 
