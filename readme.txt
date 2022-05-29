@@ -1,3 +1,1 @@
-Tips for Git
-
-try diff
+学习前端所使用的代码和练习
