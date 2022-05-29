@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <title>iterator(自定义遍历数组)</title>
+</head>
+<body>
+    <script>
+        ////iterator是一种接口,为各种不同的数据结构提供统一的访问机制。任何数据结构只要部署iterator接口就可以完成遍历操作。
+
+
+        //具备原生iterator接口的数据（可用for  of 遍历）
+        //Arry
+        //Argunments
+        //Set
+        //Map
+        //String
+        //TypedArry
+        //NodeList
+
+        //let xiyou=['唐曾','悟空','八戒','沙僧'];
+
+        //for(let v of xiyou){
+        //    
+        
+
+        const BANJI={
+            name:"firstClass",
+            stus:[
+                'xiaohua',
+                'xiaoqiang',
+                'xioaming',
+                'zhangge'
+            ],
+
+            [Symbol.iterator](){
+                //索引变量
+                let index=0;
+                return{
+                    next:()=>{
+                        if(index < this.stus.length){
+                            const result={value:this.stus[index],done:false}
+                            //下标自增
+                            index++;
+                            //返回结果
+                            return result;
+                        }else{
+                            return{value:undefined,done:true}
+                        }
+                        
+                    }
+                }
+            }
+            
+        }
+        for(let v of BANJI){
+            console.log(v);
+        }
+    </script>
+    
+</body>
+</html>

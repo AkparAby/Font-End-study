@@ -1,0 +1,12 @@
+{
+  "name": "akself-tool",
+  "version": "1.0.0",
+  "description": "提供了格式化时间、HTMLEscape相关功能",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["akself-tool","dateFormate","escape"],
+  "author": "akpar",
+  "license": "ISC"
+}

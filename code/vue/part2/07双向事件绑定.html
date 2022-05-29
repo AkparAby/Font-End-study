@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- vue 所控制的区域 -->
+    <div id="app">
+        <div>{{ msg }}</div>
+
+        <input type="text" placeholder="请输入任博涵小姐姐最美！！！！！" v-model.lazy="msg">
+
+        <input type="text" v-bind:value="msg">
+
+    </div>
+
+    <!-- 1.导入 vue 库文件 -->
+    <script src="/lib/vue-2.6.12.js"></script>
+    <!-- 2.创建 vue 实例 -->
+    <script>
+        const vm = new Vue({
+            //el 固定写法  表示 vm 实例要控制页面上的哪块区域，接受的是一个选择器
+            el:"#app",
+            data:{
+                msg:"任博涵小姐姐最美！"
+            },
+            methods:{
+
+            }
+        })
+    </script>
+</body>
+</html>

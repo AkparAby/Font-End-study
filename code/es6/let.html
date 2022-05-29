@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  
+  
+    <title>let</title>
+    <style>
+        .box{
+            display: inline-block;
+            margin-left: 10px;
+            
+            width: 60px;
+            height: 60px;
+            border: 3px solid black;/*border-width  border-style bordre-coler*/
+           
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div class="contner">
+    <h2 id="head">点击切换颜色</h2>
+        <div class="box"></div>
+        <div class="box"></div>
+        <div class="box"></div>
+    </div>
+
+    <script>
+        let box=document.getElementsByClassName("box");
+        for(let i=0;i<box.length;i++){
+            box[i].onclick=function(){
+               // this.style.background="black"; }
+               box[i].style.background="pink";}
+        }
+
+        
+    </script>
+    
+</body>
+</html>

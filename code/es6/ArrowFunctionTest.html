@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArrowFunction</title>
+
+    <style>
+        div{
+            display: inline-block;
+        }
+        #box{
+            width: 200px;
+            height: 200px;
+            border:2px solid skyblue;
+            background-color: aquamarine;
+        }
+
+        #box2{
+            width: 200px;
+            height: 200px;
+            border:2px solid skyblue;
+            background-color: rgb(42, 20, 235);
+        }
+    </style>
+</head>
+<body>
+    <div id="box"></div>
+    <div id="box2"></div>
+    <!--需求1，点击两秒后变色-->
+    <!--需求2，从数组中返回偶数的元素-->
+    <script>
+        //获取元素
+        let box=document.getElementById('box');
+        //绑定事件
+        box.addEventListener('click',function(){
+            //定时器
+            let _this=this;
+
+            setTimeout(function(){
+                //修改背景颜色
+
+                //this.style.backgroung='pink'; 无法使用，此时this指向的时window对象
+
+                //当调用setTimeout时寻找_this,函数内找不到时往外层寻找，在外层用_this保存指向box的this值；
+                _this.style.background='pink';
+            },2000);
+        })
+
+        let box2=document.getElementById('box2');
+
+        box2.addEventListener('click',function(){
+
+            setTimeout(()=>{
+                //此时this指向的是box2,因为箭头函数this是静态的，它指向声明时所在作用域下的this的值；
+                this.style.background='pink';
+            },2000);
+        })
+//----------------------------------------------------------------------------//
+
+        const ARRY=[1,6,9,10,100];
+
+        const result=ARRY.filter(function(item){
+            if(item%2===0){
+                return true;
+            }else{
+                return false;
+            }
+        })
+        console.log(result);
+
+
+
+        const result2=ARRY.filter((item)=>{
+            return item%2===0;
+        })
+        console.log(result2);
+
+        const result3=ARRY.filter(item=> item%2===0)
+        console.log(result3);
+
+
+
+        //总结：箭头函数适合与this无关的回调，定时器，数组的方法回调;
+        //箭头函数不适合与this有关的回调，事件回调对象的方法；
+        //箭头函数的this指向 函数定义时所在作用域下的this--即箭头函数所在代码块外一层的this
+
+
+
+    </script>
+    
+    
+</body>
+</html>

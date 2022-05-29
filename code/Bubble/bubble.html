@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <title>Best solution</title>
+</head>
+<body>
+    <script>
+        var scores=[60,50,60,58,54,54,58,50,52,54,48,69,34,55,51,52,44,51,69,64,66,55,52,61,46,31,57,52,44,18,41,53,55,61,51,44];
+        var cost=[0.25,0.27,0.25,0.25,0.25,0.25,0.33,0.31,0.25,0.29,0.27,0.22,0.31,0.25,0.25,0.33,0.21,0.25,0.25,0.25,0.28,0.25,0.24,0.22,0.20,0.25,0.30,0.25,0.24,0.25,0.25,0.25,0.27,0.25,0.26,0.29];
+        
+       
+        function printAndGetHighestScore(scores){
+            var highestScore=0;
+            var output;
+            for(var i=0;i<=scores.length-1;i++){
+                output="Bubble solution #"+i+" score: "+scores[i];
+                console.log(output);
+
+                if(highestScore<scores[i]){
+                    highestScore=scores[i];
+                }
+            }
+           return highestScore;
+        }
+
+        
+
+        function getBestResult(scores,highestScore){
+            var bestSolutions=[];
+
+            for(var j=0 ;j<=scores.length-1;j++){
+                if(scores[j]==highestScore){
+                    bestSolutions.push(j);
+                }
+            }
+            return bestSolutions;
+        }
+
+        function getMostCostEffectiveSolution(scores,cost,highestScore){
+            var costs=100;
+            var index;
+            for(var i=0;i<=scores.length-1;i++){
+                if(scores[i]==highestScore){
+                    if(costs>cost[i]){
+                        index=i;
+                        costs=cost;
+                    }
+                }     
+            }
+            return index;
+        }
+
+       
+        
+        var highestScore=printAndGetHighestScore(scores);
+        console.log("Bubble test: "+scores.length);
+        console.log("Highest bubble scroe: "+highestScore);
+       
+        var bestSolutions=getBestResult(scores,highestScore);
+        console.log("Solution with highest score: "+bestSolutions);
+
+        var index=getMostCostEffectiveSolution(scores,cost,highestScore);
+        console.log("Most Cost Effective Solution is "+index);
+
+    </script>
+    
+</body>
+</html>

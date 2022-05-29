@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>测试接口跨域问题</title>
+
+    <script src="../../jQuery/jquery-3.6.0.js"></script>
+  </head>
+  <body>
+    <h2>什么是跨域</h2>
+    <p>
+      1.浏览器从一个域名的网页去请求另一个域名的资源时，域名、端口、协议任一不同，都是跨域
+    </p>
+    <p>
+      2.只要协议、域名、端口有任何一个不同，都被当作是不同的域，之间的请求就是跨域操作。
+    </p>
+    <p>协议http和https不同,端口80还是81,域名更好理解</p>
+
+    <button id="btnGET">GET</button>
+    <button id="btnPOST">POST</button>
+    <button id="btnDELETE">DELETE</button>
+
+    <script>
+      $(function () {
+        //1.测试GET接口
+        $("#btnGET").on("click", function () {
+          $.ajax({
+            type: "GET",
+            url: "http://127.0.0.1/api/get",
+            data: { name: "zs", age: 20 },
+            success: function (res) {
+              console.log(res);
+            },
+          });
+        });
+
+        //2.测试POST接口
+        $("#btnPOST").on("click", function () {
+          $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1/api/post",
+            data: { bookname: "水浒传", author: "施耐庵" },
+            success: function (res) {
+              console.log(res);
+            },
+          });
+        });
+
+        //3.测试 DELETE 预检请求
+        $("#btnDELETE").on("click", function () {
+          $.ajax({
+            type: "DELETE",
+            url: "http://127.0.0.1/api/delete",
+            success: function (res) {
+              console.log(res);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

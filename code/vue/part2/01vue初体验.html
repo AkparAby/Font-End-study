@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 希望 vue 能够控制下面的这个 div ,帮我们把数据填充到 div 内部 -->
+    <div id="app">{{ username }}</div>
+
+    <!-- 1.导入 vue 的库文件 -->
+    <script src="./lib/vue-2.6.12.js"></script>
+    <!-- 2.创建 vue 的实例对象 -->
+    <script>
+      //创建 vue 实例
+      const vm = new Vue({
+        //el 是固定写法,表示当前 vm 实例要控制页面上的那块区域,接受的值是一个选择器
+        el: "#app",
+        // data 对象就是要渲染到页面上的数据
+        data: {
+          username: "zhangsan",
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let add=function(a,b){
+            return a+b;
+        }
+        let add2=(a,b)=>{
+            return a+b;
+        }
+        console.log(add(9,9));
+        console.log(add2(9,9));
+
+
+        let multiply=function(n){
+            return n*n;
+        }
+        let multiply2=(n)=>{
+            return n*n;
+        }
+        console.log(multiply(9));
+        console.log(multiply2(9));
+
+        //省略小括号，当且仅当只有一个形参时可以省略小括号
+        let multiply3= n =>{
+            return n*n;
+        }
+        //省略划花括号，当代码体只有一条语句的时候，此时return也必须省略 而且语句的结果就是函数的返回值
+        let multiply4= n=>n*n;
+        
+        console.log(multiply3(9));
+        console.log(multiply4(9));
+    </script>
+</body>
+</html>
