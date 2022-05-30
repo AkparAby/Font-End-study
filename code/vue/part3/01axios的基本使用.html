@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="get">发起get请求</button>
+    <button id="post">发起post请求</button>
+
+    <!-- 导入 axios 的库文件 -->
+    <script src="./lib/axios.js"></script>
+    <script>
+      document.getElementById("post").addEventListener("click", function () {
+        //1. 调用 axios 方法得到的返回值是一个 Promise 对象 可以使用.then()
+        axios({
+          //请求方式
+          method: "POST",
+          //请求的地址
+          url: "https://d93b044e-168c-44ec-842c-eda61465659b.mock.pstmn.io/api/post",
+          //请求体的参数
+          data: {
+            name: "zs",
+            age: 30,
+          },
+        }).then(function (result) {
+          console.log(result);
+        });
+      });
+
+      document.getElementById("get").addEventListener("click", async function () {
+        // 如果调用某个方法的返回值是 Promise 实例,则前面可以加 await!
+        // await 只能用在被 async "修饰"的方法中
+        // 解构赋值 拿到 返回数据 中的 data   重命名时 使用用 ":"
+
+        //1.调用 axios 之后,使用 async,await 进行简化
+        //2.使用解构赋值,从 axios 封装的对象中把 data 解构出来
+        //3.把解构出来的 data 属性,使用 ':' 进行重命名,一般都重命名为 { data:res }
+        const { data: res } = await axios({
+          //请求方式
+          method: "GET",
+          //请求的地址
+          url: "https://d93b044e-168c-44ec-842c-eda61465659b.mock.pstmn.io/api/get",
+          //URL 中的查询参数 "get" 请求时带 params
+          params: { id: 1 },
+        });
+        console.log(res);
+      });
+    </script>
+  </body>
+</html>
