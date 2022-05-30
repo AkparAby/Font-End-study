@@ -17,7 +17,6 @@
           <p class="mb-2">添加品牌</p>
         </div>
         <div class="card-body">
-
           <!-- form 表单有默认 submit 事件 -->
           <form @submit.prevent="add">
             <div class="form-row align-items-center">
@@ -56,17 +55,24 @@
                 <label class="custom-control-label" :for="'cb' + item.id" v-else>已禁用</label>
               </div>
             </td>
-            <td>{{ item.time }}</td>
+            <td>{{ item.time | dateFormat }}</td>
             <td><a href="script:;" @click="remove(item.id)">删除</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-
+    <!-- 导入格式化时间的库   只要导入了dayjs的库文件，windows 全局就可以使用 dayjs() 方法了 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.4.1/dayjs.min.js"></script>
     <!-- 1.导入 Vue 库文件 -->
     <script src="/lib/vue-2.6.12.js"></script>
     <!-- 2.创建 Vue 实例 -->
     <script>
+      //声明格式化时间的全局过滤器 获得 YY-MM--DD HH:mm:ss
+      Vue.filter("dateFormat", (time) => {
+        //直接调用dayjs() 是得到当前时间  dayjs(给定指定日期时间) 得到指定日期
+        return dayjs(time).format("YYYY-MM-DD HH:mm:ss");
+      });
+
       const vm = new Vue({
         el: "#app",
         data: {

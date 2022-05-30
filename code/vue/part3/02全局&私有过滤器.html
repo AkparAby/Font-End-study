@@ -12,8 +12,20 @@
       <!-- 插值表达式内 是过滤器 capi 的返回值 -->
     </div>
 
+    <div id="app2">
+      <p>message 的值是: {{ msg |capi }}</p>
+    </div>
+
     <script src="/lib/vue-2.6.12.js"></script>
     <script>
+      //全局过滤器 - 独立于每个 Vm 之外
+      //使用 Vue.filter() 定义全局过滤器 参数1:过滤器名 参数2:全局过滤器处理函数
+      Vue.filter("capi", function (str) {
+        return str.charAt(0).toUpperCase() + str.slice(1) + "~~~~";
+      });
+
+      
+
       const vm = new Vue({
         el: "#app",
         data: {
@@ -32,6 +44,13 @@
             //!!!!过滤器中一定要有返回值
             return first + other;
           },
+        },
+      });
+      /* --------------------------------------------------------------- */
+      const vm2 = new Vue({
+        el: "#app2",
+        data: {
+          msg: "rbh",
         },
       });
     </script>
