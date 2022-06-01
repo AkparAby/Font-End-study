@@ -1,6 +1,8 @@
 <template>
   <div id="box">
     <h3>这是用户自定义的test页面----{{ username }}</h3>
+
+    <button @click="changeName"> change name</button>
   </div>
 </template>
 
@@ -16,11 +18,19 @@ export default {
       username: "admin",
     };
   },
+  methods:{
+    changeName(){
+      this.username="father"
+    }
+  }
 };
 </script>
 
-<style>
+<style lang="less">
 #box {
   background-color: aquamarine;
+  h3{
+    color:red;
+  }
 }
 </style>
