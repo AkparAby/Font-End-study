@@ -15,9 +15,44 @@
    - 缺点 1：无法在刚进入页面的时候，自动触发！！！
    - 缺点 2：如果侦听的是一个对象，如果对象中的属性发生了变化，不会触发侦听器！！！
 2. 对象格式的侦听器
-   - 好处 1：可以通过 **immediate** 选项，让侦听器自动触发！！！
-   - 好处 2：可以通过 **deep** 选项，让侦听器深度监听对象中每个属性的变化！！！
-   - 可以 通过'object.attribute'(){} 直接侦听 对象的某个属性
+
+```js
+//监听 username 值的变化，并使用 axios 发起 Ajax 请求，检测当前输入的用户名是否可用
+watch: {
+// 监听 username 值的变化
+async username(newVal) {
+if (newVal === '') return
+// 使用 axios 发起请求，判断用户名是否可用
+const { data: res } = await axios.get('https://www.escook.cn/api/finduser/' + newVal)
+console.log(res)
+   }
+}
+
+```
+
+- 好处 1：可以通过 **immediate** 选项，让侦听器自动触发！！！
+- 好处 2：可以通过 **deep** 选项，让侦听器深度监听对象中每个属性的变化！！！
+- 可以 通过`object.attribute:{handler:function(newVal){},...}` 直接侦听 对象的某个属性
+
+```js
+watch: {
+username: {
+// handler 是固定写法，表示当 username 的值变化时，自动调用 handler 处理函数
+      handler: async function (newVal) {
+        if (newVal === '') {
+          return
+        }else{
+          const { data: res } = await axios.get('https://www.escook.cn/api/finduser/' + newVal)
+          console.log(res)
+          }
+        },
+// 表示页面初次渲染好之后，就立即触发当前的 watch 侦听器
+immediate: true
+
+  }
+}
+
+```
 
 ## 计算属性
 

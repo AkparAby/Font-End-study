@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const arry = ["张三", "李四", "王五", "七八"];
+
+
+      //forEach 循环一旦开始,无法在中间停止
+      /*arry.forEach((item, index) => {
+        if (item === "王五") {
+          console.log(index);
+        }
+      });*/
+
+      arry.some((item, index) => {
+        if (item === "王五") {
+          console.log(index);
+          //找到对应项之后，可以通过 'return true' 终止循环
+          return true;
+        }
+      });
+    </script>
+  </body>
+</html>

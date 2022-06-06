@@ -2,16 +2,36 @@
   <div class="left-container">
     <h3>Left 组件</h3>
     <hr />
-    <p>message 的值 是{{ msg }}</p>
-    <p>userinfo 的值 是{{ info }}</p>
+    <p>来自父组件 message 的值 是{{ msg }}</p>
+    <p>来自父组件 userinfo 的值 是{{ info }}</p>
+
+    <hr />
+    <button @click="sendMsg">发消息给 Right</button>
   </div>
 </template>
 
 <script>
+//1.导入eventBus.js 模块
+import bus from "./eventBus.js";
+
 export default {
   props: {
     msg: {},
     info: {},
+  },
+
+  data() {
+    return {
+      //希望把 此字符串数据 传给兄弟组件 Left
+      str: "六一儿童节的第二天快乐!",
+    };
+  },
+
+  methods: {
+    sendMsg() {
+      //2.通过 bus 发送数据 (将数据挂载到 eventBus 中的 Vue 实例上)
+      bus.$emit("sharemsg", this.str);
+    },
   },
 };
 </script>
