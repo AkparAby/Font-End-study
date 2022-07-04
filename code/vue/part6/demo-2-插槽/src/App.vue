@@ -11,6 +11,7 @@
         <h3>一首诗</h3>
       </template>
 
+      <!-- 解构赋值 解构 msg user -->
       <template #content="{ msg, user }">
         <div>
           <p>啊，大海，全是水。</p>
@@ -46,18 +47,18 @@
 </template>
 
 <script>
-import Left from '@/components/Left.vue'
-import Article from '@/components/Article.vue'
+import Left from "@/components/Left.vue";
+import Article from "@/components/Article.vue";
 
 export default {
   data() {
     return {
-      color: 'blue'
-    }
+      color: "blue",
+    };
   },
   components: {
     Left,
-    Article
+    Article,
   },
   // 私有自定义指令的节点
   directives: {
@@ -76,10 +77,10 @@ export default {
       }
     } */
     color(el, binding) {
-      el.style.color = binding.value
-    }
-  }
-}
+      el.style.color = binding.value;
+    },
+  },
+};
 </script>
 
 <style lang="less">

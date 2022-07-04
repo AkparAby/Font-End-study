@@ -1,0 +1,344 @@
+<template>
+  <div class="audit-task">
+    <Menu mode="horizontal" class="audit-type"> <span class="title">统计/个人统计数据</span> </Menu>
+    <div class="audit-ctrl">
+      <Input class="audit-search" v-model="search" search placeholder="输入关键字搜索" @on-search="handleAuditSearch" />
+      <div class="tableheader">
+        <Button class="btn-gap" type="primary" size="small" @click="handleExportSummaryTable">导出总表</Button>
+        <Button type="primary" size="small" @click="handleExportPersonalDetails">导出个人明细</Button>
+
+        <Row>
+          <Col span="12">
+            <Date-picker
+              type="daterange"
+              :options="options2"
+              placement="bottom-end"
+              placeholder="选择日期"
+              style="width: 200px"
+            ></Date-picker>
+          </Col>
+        </Row>
+      </div>
+    </div>
+    <div class="audit-list" ref="auditList">
+      <Table
+        class="list-table"
+        border
+        :height="auditHeight"
+        :disabled-hover="true"
+        :data="auditDatalist"
+        :columns="auditColumn"
+      ></Table>
+      <div class="list-info">
+        <Page
+          :total="auditData.total"
+          size="small"
+          show-total
+          show-elevator
+          show-sizer
+          :page-size="pagesize"
+          :page-size-opts="[15, 30, 45, 50]"
+          @on-change="handlePageChange"
+          @on-page-size-change="handlePageSizeChange"
+        ></Page>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import TreeDrop from '../components/TreeDrop.vue'
+import ColumnTag from '../components/ColumnTag.vue'
+import { mapGetters, mapMutations } from 'vuex'
+
+export default {
+  components: { TreeDrop, ColumnTag },
+  computed: {
+    ...mapGetters({
+      auditData: 'auditData',
+      contentHeight: 'contentHeight',
+      auditLoading: 'auditLoading',
+      batchLoading: 'batchLoading',
+      columnData: 'columnData',
+      otherData: 'otherData',
+      passColumn: 'passColumn',
+      reviewColumn: 'reviewColumn',
+      cacheColumn: 'cacheColumn',
+      isMigrate: 'isMigrate',
+      basicConfig: 'basicConfig',
+      permission: 'permission'
+    })
+  },
+  watch: {
+    contentHeight: {
+      immediate: true,
+      handler: function(val, old) {
+        if (val != 0 && this.$refs.auditList) {
+          // console.log('contentHeight =',val,'/selflist height=',document.querySelector('.self-list').clientHeight)
+          this.auditHeight = this.$refs.auditList.clientHeight - 40
+        }
+      }
+    }
+  },
+  methods: {
+    //导出个人明细
+    handleExportPersonalDetails() {},
+    //导出总表
+    handleExportSummaryTable() {},
+
+    handleAuditSearch() {
+      this.current = 1
+      this.getAuditData()
+    },
+    handlePageChange(page) {
+      this.current = page
+      this.getAuditData()
+    },
+    handlePageSizeChange(size) {
+      this.pagesize = size
+      this.current = 1
+      this.getAuditData()
+    },
+
+    getParamsData() {
+      return {
+        page: this.current - 1,
+        limit: this.pagesize,
+        type: this.tasktype,
+        // assign: this.assign,
+        order: JSON.stringify(this.order),
+        status: JSON.stringify(this.auditstatus),
+        title: this.search
+      }
+    },
+
+    show(index) {
+      this.$Modal.info({
+        title: '用户信息',
+        content: `姓名：${this.data1[index].name}<br>年龄：${this.data1[index].age}<br>地址：${
+          this.data1[index].address
+        }`
+      })
+    },
+    remove(index) {
+      this.data1.splice(index, 1)
+    }
+  },
+  data() {
+    return {
+      auditDatalist: data1,
+      auditColumn: columns,
+      audittype: 'pending',
+      assign: 'assignToMe',
+      tasktype: '',
+      auditstatus: [0, 1],
+      search: '',
+      current: 1,
+      pagesize: 15,
+      order: { created_at: 'desc' },
+      batchType: 'pass',
+      statusType: 'status',
+      auditNote: '',
+      auditModal: false,
+      auditSelect: [],
+      auditHeight: null,
+
+      submitModal: false,
+      selectColumn: '-1'
+    }
+  },
+
+  /* created() {
+    // console.log('audit route from =',this.$route)
+    if (this.$route.meta.from == 'detail') {
+      if (this.$route.meta.hasOwnProperty('prevfrom') && this.$route.meta.prevfrom != 'audit') {
+        this.getAuditData()
+      } else {
+        if (this.$route.meta.menu != '') {
+          this.audittype = this.$route.meta.menu
+          this.setMenuType()
+        }
+      }
+    } else {
+      this.getAuditData()
+    }
+
+    this.$store.dispatch('getColumns')
+    this.$store.dispatch('getOtherConfig')
+  }, */
+  mounted() {
+    // console.log('clientHeight =',this.$refs.selfList.clientHeight)
+    // console.log('clientHeight =',document.querySelector('.self-list').clientHeight)
+    this.auditHeight = this.$refs.auditList.clientHeight - 40
+  },
+  beforeRouteEnter(to, from, next) {
+    to.meta.from = from.name ? from.name : ''
+    to.meta.menu = ''
+    if (from.query.hasOwnProperty('menu')) {
+      to.meta.menu = from.query.menu
+    }
+    to.meta.prevfrom = ''
+    if (from.name == 'detail') {
+      if (from.query.hasOwnProperty('type')) {
+        to.meta.prevfrom = from.query.type
+      }
+    }
+    // console.log('audit to/from 2 =',to,from)
+    next()
+  }
+}
+const columns = [
+  {
+    title: '序号',
+    key: 'num'
+  },
+  {
+    title: '审核员名称',
+    key: 'name'
+  },
+  {
+    title: '审核内容时长(min)',
+    key: 'duration'
+  },
+  {
+    title: '审核个数',
+    key: 'amount'
+  },
+  {
+    title: '审核通过数',
+    key: 'amount2'
+  },
+  {
+    title: '系统在线时长',
+    key: 'systemtime'
+  },
+  {
+    title: '操作',
+    key: 'action',
+    width: 150,
+    align: 'center',
+    render(row, column, index) {
+      return `<i-button type="primary" size="small" @click="show(${index})">查看</i-button> <i-button type="error" size="small" @click="remove(${index})">删除</i-button>`
+    }
+  }
+]
+const data1 = [
+  {
+    num: 1,
+    name: '王小明',
+    duration: 200,
+    amount: 40,
+    amount2: 20,
+    systemtime: 500
+  },
+  {
+    name: '张小刚',
+    duration: 200,
+    amount: 40,
+    amount2: 20,
+    systemtime: 500
+  },
+  {
+    name: '李小红',
+    duration: 200,
+    amount: 40,
+    amount2: 20,
+    systemtime: 500
+  },
+  {
+    name: '周小伟',
+    duration: 200,
+    amount: 40,
+    amount2: 20,
+    systemtime: 500
+  }
+]
+</script>
+
+<style scoped>
+.audit-task {
+  background-color: #ffffff;
+  height: 100%;
+}
+.audit-type {
+  height: 42px;
+  line-height: 42px;
+}
+.audit-search {
+  width: 235px;
+  /* margin-right: 10px; */
+}
+.audit-ctrl {
+  height: 58px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-gap {
+  margin-right: 10px;
+}
+
+.audit-list {
+  height: calc(100% - 100px);
+}
+.list-table {
+  height: calc(100% - 40px);
+}
+.list-info {
+  height: 40px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.audit-modal-header {
+  display: flex;
+  align-items: center;
+}
+.audit-modal-header span {
+  margin-left: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.audit-modal-content {
+  display: flex;
+  flex-direction: column;
+}
+.audit-modal-label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.submit-modal-header {
+  height: 42px;
+  line-height: 42px;
+}
+.submit-modal-header-span {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 12px;
+  font-size: 16px;
+  color: #17233d;
+  font-weight: 700;
+}
+.submit-modal-content {
+  width: 100%;
+  padding-left: 10px;
+}
+.submit-modal-sure {
+  font-size: 14px;
+}
+.submit-modal-column {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+.submit-column-label {
+  /* width: 75px; */
+  white-space: nowrap;
+}
+</style>
